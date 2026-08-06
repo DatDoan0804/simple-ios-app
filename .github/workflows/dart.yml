@@ -1,15 +1,39 @@
-workflows:
-  ios-build:
-    name: Build iOS IPA
-    max_build_duration: 30
-    instance_type: mac_mini_m1
-    environment:
-      flutter: stable
-      xcode: latest
-    scripts:
-      - name: Get dependencies
-        script: flutter pub get
-      - name: Build IPA
-        script: flutter build ipa --no-codesign
-    artifacts:
-      - build/ios/ipa/*.ipa
+name: Build iOS IPA
+
+on:
+  workflow_dispatch: # Enables the "Run workflow" button in GitHub Actions UI
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.x"
+          channel: "stable"
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build IPA without signing
+        run: flutter build ipa --no-codesign
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-ipa
+          path: build/ios/ipa/*.ipa
