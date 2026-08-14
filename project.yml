@@ -14,3 +14,5 @@ targets:
         UILaunchScreen: {}
     settings:
       GENERATE_INFOPLIST_FILE: NO
+      SWIFT_VERSION: "5.0"
+      IPHONEOS_DEPLOYMENT_TARGET: "15.0"
