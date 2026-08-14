@@ -1,0 +1,16 @@
+name: FlashlightApp
+options:
+  bundlePrefix: com.example
+targets:
+  FlashlightApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - FlashlightApp
+    info:
+      path: FlashlightApp/Info.plist
+      properties:
+        UILaunchScreen: {}
+    settings:
+      GENERATE_INFOPLIST_FILE: NO
